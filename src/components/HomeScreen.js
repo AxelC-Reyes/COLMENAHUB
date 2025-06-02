@@ -10,21 +10,21 @@ const HomeScreen = ({ setCurrentScreen, setUserType }) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-offwhite">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">C O L M E N A  H U B </h1>
-        <p className="text-lg text-gray-600">Q U I E R O</p>
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">COLMENA HUB </h1>
+        <p className="text-lg text-gray-600">QUIERO</p>
       </div>
       
       <div className="flex flex-col md:flex-row justify-center gap-8 mb-16">
         <div className="text-center">
           <HexagonButton 
-            text="C O N T R A T A R " 
+            text="CONTRATAR" 
             onClick={() => handleOptionClick('client')} 
           />
         </div>
         
         <div className="text-center">
           <HexagonButton 
-            text="S E R  C O N T R A T A D O " 
+            text="SER CONTRATADO" 
             onClick={() => handleOptionClick('professional')} 
           />
         </div>
