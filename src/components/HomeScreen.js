@@ -10,25 +10,23 @@ const HomeScreen = ({ setCurrentScreen, setUserType }) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-offwhite">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">Bienvenido a ContratApp</h1>
-        <p className="text-lg text-gray-600">¿Qué deseas hacer hoy?</p>
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">C O L M E N A  H U B </h1>
+        <p className="text-lg text-gray-600">Q U I E R O</p>
       </div>
       
       <div className="flex flex-col md:flex-row justify-center gap-8 mb-16">
         <div className="text-center">
           <HexagonButton 
-            text="Contratar" 
+            text="C O N T R A T A R " 
             onClick={() => handleOptionClick('client')} 
           />
-          <p className="mt-4 text-gray-600">Encuentra al profesional perfecto para tus necesidades</p>
         </div>
         
         <div className="text-center">
           <HexagonButton 
-            text="Ser contratado" 
+            text="S E R  C O N T R A T A D O " 
             onClick={() => handleOptionClick('professional')} 
           />
-          <p className="mt-4 text-gray-600">Ofrece tus servicios y encuentra nuevos clientes</p>
         </div>
       </div>
 
@@ -58,7 +56,7 @@ const Footer = () => (
       </div>
     </div>
     <div className="mt-4 text-center text-xs text-gray-500">
-      © 2023 ContratApp - Todos los derechos reservados
+      © 2023 Colmenahub - Todos los derechos reservados
     </div>
   </div>
 );
