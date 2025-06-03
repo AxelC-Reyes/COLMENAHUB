@@ -13,14 +13,16 @@ const App = () => {
   const [userType, setUserType] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedProfessional, setSelectedProfessional] = useState(null);
-  const [showLogin, setShowLogin] = useState(false); // NUEVO
+  const [showLogin, setShowLogin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Para control de sesión
 
   const abrirLogin = () => setShowLogin(true);
   const cerrarLogin = () => setShowLogin(false);
 
   const handleLoginSuccess = () => {
     setShowLogin(false);
-    // Agrega lógica extra si quieres redirigir o guardar usuario
+    setIsLoggedIn(true); // Marca como logueado
+    setCurrentScreen('register'); // O navega a donde quieras
   };
 
   const screens = {
@@ -28,7 +30,7 @@ const App = () => {
       <HomeScreen
         setCurrentScreen={setCurrentScreen}
         setUserType={setUserType}
-        abrirLogin={abrirLogin} // Pasamos función
+        abrirLogin={abrirLogin} // Aquí pasamos la función
       />
     ),
     register: (
