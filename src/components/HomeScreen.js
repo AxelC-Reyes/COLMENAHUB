@@ -1,22 +1,10 @@
-import React, { useState } from 'react';
+// components/HomeScreen.js
+import React from 'react';
 import HexagonButton from './HexagonButton';
-import LoginForm from './LoginForm';
 
-const HomeScreen = ({ setCurrentScreen, setUserType }) => {
-  const [showLogin, setShowLogin] = useState(false);
-
-  const handleOptionClick = (type) => {
-    setUserType(type);
-    setCurrentScreen('register');
-  };
-
-  const handleLoginSuccess = () => {
-    setShowLogin(false);
-    // Lógica extra si necesitas
-  };
-
-  const handleLoginBack = () => {
-    setShowLogin(false);
+const HomeScreen = ({ abrirLogin }) => {
+  const handleOptionClick = () => {
+    abrirLogin(); // Mostramos login antes de avanzar
   };
 
   return (
@@ -27,30 +15,16 @@ const HomeScreen = ({ setCurrentScreen, setUserType }) => {
       </div>
 
       <div className="flex flex-col md:flex-row justify-center gap-8 mb-16">
-        <HexagonButton text="CONTRATAR" onClick={() => handleOptionClick('client')} />
-        <HexagonButton text="SER CONTRATADO" onClick={() => handleOptionClick('professional')} />
+        <HexagonButton text="CONTRATAR" onClick={handleOptionClick} />
+        <HexagonButton text="SER CONTRATADO" onClick={handleOptionClick} />
       </div>
 
       <button
-        onClick={() => setShowLogin(true)}
+        onClick={abrirLogin}
         className="text-sm text-honey-7549 hover:underline mt-4"
       >
         Ya tengo una cuenta
       </button>
-
-      {showLogin && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg relative w-full max-w-md">
-            <button
-              onClick={handleLoginBack}
-              className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
-            >
-              ✕
-            </button>
-            <LoginForm onSuccess={handleLoginSuccess} onBack={handleLoginBack} />
-          </div>
-        </div>
-      )}
 
       <Footer />
     </div>
@@ -59,7 +33,27 @@ const HomeScreen = ({ setCurrentScreen, setUserType }) => {
 
 const Footer = () => (
   <div className="w-full max-w-4xl p-6 mt-12 border-t border-gray-200">
-    {/* ...igual que antes */}
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-sm text-gray-600">
+      <div>
+        <h3 className="font-bold mb-2 text-gray-800">Políticas de privacidad</h3>
+        <p className="text-xs">Protegemos tus datos personales y garantizamos tu privacidad.</p>
+      </div>
+      <div>
+        <h3 className="font-bold mb-2 text-gray-800">Misión</h3>
+        <p className="text-xs">Conectar talento con oportunidades de manera simple y segura.</p>
+      </div>
+      <div>
+        <h3 className="font-bold mb-2 text-gray-800">Visión</h3>
+        <p className="text-xs">Ser la plataforma líder en contratación profesional en Latinoamérica.</p>
+      </div>
+      <div>
+        <h3 className="font-bold mb-2 text-gray-800">Conócenos</h3>
+        <p className="text-xs">Somos un equipo comprometido con el desarrollo profesional.</p>
+      </div>
+    </div>
+    <div className="mt-4 text-center text-xs text-gray-500">
+      © 2023 Colmenahub - Todos los derechos reservados
+    </div>
   </div>
 );
 
