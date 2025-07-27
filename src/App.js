@@ -7,9 +7,7 @@ import ProfileScreen from './components/ProfileScreen';
 import PaymentScreen from './components/PaymentScreen';
 import HRRegistration from './components/HRRegistration';
 import LoginForm from './components/LoginForm';
-import AuthService from './services/AuthService';
-import SearchService from './services/SearchService';
-import UserService from './services/UserService';
+import { useAuth } from './context/AuthContext';
 
 const App = () => {
   const [currentScreen, setCurrentScreen] = useState('home');
@@ -17,46 +15,16 @@ const App = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedProfessional, setSelectedProfessional] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const { user, loading: authLoading, logout } = useAuth();
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Verificar sesión al cargar
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          const user = await AuthService.verifyToken(token);
-          setIsLoggedIn(true);
-          setUserData(user);
-        }
-      } catch (error) {
-        console.error('Error verifying session:', error);
-        localStorage.removeItem('token');
-      }
-    };
-    checkSession();
-  }, []);
 
   const abrirLogin = () => setShowLogin(true);
   const cerrarLogin = () => setShowLogin(false);
 
-  const handleLoginSuccess = async (token) => {
-    localStorage.setItem('token', token);
-    const user = await AuthService.getUserProfile(token);
-    setUserData(user);
-    setIsLoggedIn(true);
+  const handleLoginSuccess = async () => {
     setShowLogin(false);
-    setCurrentScreen(user.isProfessional ? 'professionalType' : 'home');
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-    setUserData(null);
-    setCurrentScreen('home');
+    setCurrentScreen(user?.isProfessional ? 'professionalType' : 'home');
   };
 
   const handleSearch = async (query) => {
@@ -72,28 +40,15 @@ const App = () => {
     }
   };
 
-  const handleRegister = async (userData) => {
-    try {
-      const newUser = await UserService.registerUser(userData);
-      if (newUser.token) {
-        handleLoginSuccess(newUser.token);
-      }
-      return { success: true };
-    } catch (error) {
-      console.error('Registration error:', error);
-      return { success: false, message: error.message };
-    }
-  };
-
   const screens = {
     home: (
       <HomeScreen
         setCurrentScreen={setCurrentScreen}
         setUserType={setUserType}
         abrirLogin={abrirLogin}
-        isLoggedIn={isLoggedIn}
-        userData={userData}
-        onLogout={handleLogout}
+        isLoggedIn={!!user}
+        userData={user}
+        onLogout={logout}
         onSearch={handleSearch}
         isLoading={isLoading}
       />
@@ -102,13 +57,12 @@ const App = () => {
       <RegisterScreen
         setCurrentScreen={setCurrentScreen}
         userType={userType}
-        onRegister={handleRegister}
       />
     ),
     professionalType: (
       <ProfessionalTypeScreen 
         setCurrentScreen={setCurrentScreen}
-        userData={userData}
+        userData={user}
       />
     ),
     professions: (
@@ -123,15 +77,15 @@ const App = () => {
       <ProfileScreen
         professional={selectedProfessional}
         setCurrentScreen={setCurrentScreen}
-        isLoggedIn={isLoggedIn}
-        userData={userData}
+        isLoggedIn={!!user}
+        userData={user}
       />
     ),
     payment: <PaymentScreen setCurrentScreen={setCurrentScreen} />,
     hrRegistration: (
       <HRRegistration 
         setCurrentScreen={setCurrentScreen}
-        userData={userData}
+        userData={user}
       />
     ),
   };
